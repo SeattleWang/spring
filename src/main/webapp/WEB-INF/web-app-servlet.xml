@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc 
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	<context:annotation-config />
+	<mvc:annotation-driven />  
+	<!-- spring mvc -->
+	<!-- web mvc configuration view resolver 视图解析器 -->
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/qiniu/" />  
+        <property name="suffix" value=".jsp" />  
+    </bean>
+	
+	<!-- freemarker的配置 -->
+	<!-- <bean id="freemarkerConfiguration"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:/freemarker.properties" />
+	</bean> -->
+
+	<!-- <bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/view/" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="freemarkerSettings" ref="freemarkerConfiguration" />
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="hasMenu">
+					<bean class="com.shininghub.erp.framework.freemarker.HasMenu"></bean>
+				</entry>
+				<entry key="webRoot" value="http://192.168.1.17:9090/wesource" />
+				<entry key="imgRoot" value="http://192.168.1.17:8080/EnWesource" />
+				<entry key="erpRoot" value="http://192.168.1.17:8090/OrderCtrlERP" />
+			</map>
+		</property>
+	</bean>
+	FreeMarker视图解析 视图解析器。。
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="request" />
+		<property name="allowSessionOverride" value="true" />
+	</bean>
+ -->
+	<!-- 扫描web包，应用Spring的注解 -->
+	<context:component-scan base-package="com.shininghub.seattle.**" />
+	
+	<!-- MVC Annotation Driven -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean id="utf8StringHttpMessageConverter"
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+
+				<bean id="jacksonMessageConverter"
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<!-- 解决 HttpMediaTypeNotAcceptableException: Could not find acceptable 
+						representation -->
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+	<mvc:annotation-driven conversion-service="conversionService" />
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.shininghub.erp.plugins.StringToDateConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<!-- <prop key="cn.com.ecointel.webframework.exception.ObjectNotFoundException">object-not-found-exception</prop> 
+					<prop key="cn.com.ecointel.webframework.exception.NotAuthException">not-auth-exception</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<!-- CommonsMultipartResolver -->
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1024000000"></property>
+	</bean>
+
+
+	<!-- MessageResolve -->
+<!-- 	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>res.messages</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" 
+		p:cookieName="clientLanguage" p:cookieMaxAge="10000" p:cookiePath="/"
+		p:defaultLocale="en" />
+	<mvc:interceptors>
+		<bean id="localeChangeInterceptor"
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+	</mvc:interceptors> -->
+
+
+	<!-- <mvc:resources mapping="/qiniu/**" location="/qiniu/"
+		cache-period="31536000" /> -->
+
+	<!-- 拦截器配置 -->
+	<!-- <mvc:interceptors>
+		配置Token拦截器，防止用户重复提交数据
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.shininghub.erp.security.TokenInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/upload/**" />
+			<bean class="com.shininghub.erp.common.util.io.FileDownLoad" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+</beans> 

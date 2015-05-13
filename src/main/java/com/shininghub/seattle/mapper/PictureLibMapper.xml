@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.shininghub.seattle.mapper.PictureLibMapper">
+	<resultMap id="pictureLibs"
+		type="com.shininghub.seattle.beans.PictureLib">
+		<result property="id" jdbcType="INTEGER" column="id" />
+		<result property="uid" jdbcType="INTEGER" column="uid" />
+		<result property="img" jdbcType="VARCHAR" column="img" />
+		<result property="ctime" jdbcType="TIMESTAMP" column="ctime" />
+		<result property="note" jdbcType="VARCHAR" column="note" />
+		<result property="size" jdbcType="FLOAT" column="size" />
+		<result property="tag" jdbcType="VARCHAR" column="tag" />
+		<result property="picOrder" jdbcType="SMALLINT" column="pic_order" />
+		<result property="title" jdbcType="VARCHAR" column="title" />
+		<result property="isUpdate" jdbcType="INTEGER" column="is_update" />
+		<result property="imgMark" jdbcType="INTEGER" column="img_mark" />
+	</resultMap>
+	
+	<select id="load" resultMap="pictureLibs" parameterType="java.lang.Integer">
+		SELECT
+		*
+		FROM picture_lib
+		where id=#{id}
+	</select>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM picture_lib
+		WHERE
+		id =
+		#{id}
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.shininghub.seattle.beans.PictureLib"
+		useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="Integer" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID() as id;
+		</selectKey>
+		INSERT INTO
+		picture_lib
+		<trim prefix="(" prefixOverrides="," suffix=")">
+			<if test="uid != null">
+				,uid
+			</if>
+			<if test="img != null">
+				,img
+			</if>
+			<if test="ctime != null">
+				,ctime
+			</if>
+			<if test="note != null">
+				,note
+			</if>
+			<if test="size != null">
+				,size
+			</if>
+			<if test="tag != null">
+				,tag
+			</if>
+			<if test="picOrder != null">
+				,pic_order
+			</if>
+			<if test="title != null">
+				,title
+			</if>
+			<if test="isUpdate != null">
+				,is_update
+			</if>
+			<if test="imgMark != null">
+				,img_mark
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" prefixOverrides="," suffix=")">
+			<if test="uid != null">
+				,#{uid}
+			</if>
+			<if test="img != null">
+				,#{img}
+			</if>
+			<if test="ctime != null">
+				,#{ctime}
+			</if>
+			<if test="note != null">
+				,#{note}
+			</if>
+			<if test="size != null">
+				,#{size}
+			</if>
+			<if test="tag != null">
+				,#{tag}
+			</if>
+			<if test="picOrder != null">
+				,#{picOrder}
+			</if>
+			<if test="title != null">
+				,#{title}
+			</if>
+			<if test="isUpdate != null">
+				,#{isUpdate}
+			</if>
+			<if test="imgMark != null">
+				,#{imgMark}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective"
+		parameterType="com.shininghub.seattle.beans.PictureLib">
+		UPDATE picture_lib
+		<trim prefix="set" prefixOverrides=",">
+			<if test="uid != null">
+				,uid=#{uid}
+			</if>
+			<if test="img != null">
+				,img=#{img}
+			</if>
+			<if test="ctime != null">
+				,ctime=#{ctime}
+			</if>
+			<if test="note != null">
+				,note=#{note}
+			</if>
+			<if test="size != null">
+				,size=#{size}
+			</if>
+			<if test="tag != null">
+				,tag=#{tag}
+			</if>
+			<if test="picOrder != null">
+				,pic_order=#{picOrder}
+			</if>
+			<if test="title != null">
+				,title=#{title}
+			</if>
+			<if test="isUpdate != null">
+				,is_update=#{isUpdate}
+			</if>
+			<if test="imgMark != null">
+				,img_mark=#{imgMark}
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<update id="update"
+		parameterType="com.shininghub.seattle.beans.PictureLib">
+		UPDATE picture_lib
+		SET
+		uid=#{uid}
+		,img=#{img}
+		,ctime=#{ctime}
+		,note=#{note}
+		,size=#{size}
+		,tag=#{tag}
+		,pic_order=#{picOrder}
+		,title=#{title}
+		,is_update=#{isUpdate}
+		,img_mark=#{imgMark}
+		WHERE
+		id = #{id}
+	</update>
+
+	<select id="countAll" resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		picture_lib
+	</select>
+
+	<select id="findAll" resultMap="pictureLibs">
+		SELECT
+		*
+		FROM picture_lib
+		<trim prefix="where" prefixOverrides="and">
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+			<if test="ids != null">
+				and id in(${ids})
+			</if>
+			<if test="tag != null">
+				and tag = #{tag}
+			</if>
+			<if test="isUpdate != null">
+				and is_update = #{isUpdate}
+			</if>
+			<if test="imgMark != null">
+				and img_mark = #{imgMark}
+			</if>
+		</trim>
+	</select>
+
+</mapper>
+

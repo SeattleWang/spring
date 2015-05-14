@@ -9,14 +9,14 @@
 		<param-value>classpath:application-context.xml</param-value>
 	</context-param>
 	<!-- SpringSecurity filter -->
-	<filter>
+	<!-- <filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 	
 	<servlet>
 		<servlet-name>web-app</servlet-name>
@@ -37,10 +37,10 @@
 	  <mime-type>text/xml</mime-type>
 	</mime-mapping> -->
 	
-	<listener>
+	<!-- <listener>
 		<listener-class>
 			com.shininghub.erp.adapter.web.listener.AppContextInitListener</listener-class>
-	</listener>
+	</listener> -->
 	<!-- Spring 刷新Introspector防止内存泄露 -->  
     <listener>  
         <listener-class>  
@@ -49,11 +49,11 @@
     </listener>  
       
     <!--      获取Spring Security session的生命周期-->  
-    <listener>  
+   <!--  <listener>  
         <listener-class>  
             org.springframework.security.web.session.HttpSessionEventPublisher   
         </listener-class>  
     </listener> 
-
+ -->
 
 </web-app>

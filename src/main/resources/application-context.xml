@@ -50,6 +50,8 @@
 	<!--MyBatis integration with Spring as define sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="mapperLocations" value="classpath:com/shininghub/seattle/mapper/*.xml" />  
+        <property name="typeAliasesPackage" value="com.shininghub.seattle.beans" /> -->
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -66,8 +68,6 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<!-- 扫描service -->
-	<context:component-scan base-package="com.shininghub.seattle.service.impl" />
 	
 	<bean id="springContextHolder" class="com.shininghub.seattle.SpringContextHolder" />
 	

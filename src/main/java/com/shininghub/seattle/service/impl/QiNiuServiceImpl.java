@@ -3,7 +3,6 @@ package com.shininghub.seattle.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.qiniu.util.Auth;
 import com.shininghub.seattle.service.QiNiuService;
 
 @Service("qiNiuService")
@@ -18,7 +17,7 @@ public class QiNiuServiceImpl implements QiNiuService {
 		SECRET_KEY = sECRET_KEY;
 	}
 	
-	Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+	//Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
 	
 	
 }

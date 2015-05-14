@@ -8,6 +8,7 @@
     </head>  
       
     <body>  
-        <c:out value="${seattle}"></c:out>  
+        hello<c:out value="${seattle.ctime}"></c:out>
+        
     </body>  
 </html>
